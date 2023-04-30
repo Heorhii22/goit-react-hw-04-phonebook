@@ -3,6 +3,8 @@ import { nanoid } from 'nanoid';
 import { Notify } from 'notiflix';
 import { ContactList } from 'components/ContactList/ContactList';
 import { FilterContacts } from 'components/Filter/Filter';
+import { Title } from 'components/Title/Title';
+import css from './Contacts.module.css';
 
 export function Contacts() {
   const [name, setName] = useState('');
@@ -73,9 +75,11 @@ export function Contacts() {
 
   return (
     <>
-      <form onSubmit={addContact}>
+      <Title title="Phone book" />
+      <form onSubmit={addContact} className={css.contactForm}>
         <label htmlFor="name">Name</label>
         <input
+          className={css.addContactInput}
           type="text"
           name="name"
           pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -86,6 +90,7 @@ export function Contacts() {
         />
         <label htmlFor="number">Number</label>
         <input
+          className={css.addContactInput}
           type="tel"
           name="number"
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
@@ -94,14 +99,17 @@ export function Contacts() {
           value={number}
           required
         />
-        <button type="submit">Add contact</button>
+        <button type="submit" className={css.addContactBtn}>
+          Add contact
+        </button>
       </form>
+      <Title title="Search contacts" />
+      <FilterContacts filter={filter} onSearchContact={onSearchContact} />
       <ContactList
         contacts={contacts}
         removeContact={removeContact}
         filter={filter}
       />
-      <FilterContacts filter={filter} onSearchContact={onSearchContact} />
     </>
   );
 }
